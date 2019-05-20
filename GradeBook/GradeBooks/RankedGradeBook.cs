@@ -1,4 +1,7 @@
-﻿namespace GradeBook.GradeBooks
+﻿using System;
+using System.Linq;
+
+namespace GradeBook.GradeBooks
 {
     public class RankedGradeBook : BaseGradeBook
     {
@@ -6,5 +9,41 @@
 		{
 			Type = Enums.GradeBookType.Ranked;
 		}
+
+        public override char GetLetterGrade(double average)
+        {
+            // If there are less than 5 students throw 
+            //an InvalidOperationException. 
+       // (Ranked - grading requires a minimum of 5 students to work)
+// Return 'F' at the end of the method.
+            if(Students.Count < 5)
+            {
+                throw new InvalidOperationException("Ranked grading requires at least 5 students.");
+            }
+
+            var threshold = (int) Math.Ceiling(Students.Count * 0.2);
+            var grades = Students.OrderByDescending(e => e.AverageGrade).Select(e => e.AverageGrade).ToList();
+
+            if (grades[threshold - 1] <= average)
+            {
+                return 'A';
+            }
+            else if (grades[threshold * 2 - 1] <= average)
+            {
+                return 'B';
+            }
+            else if (grades[threshold * 3 - 1] <= average)
+            {
+                return 'C';
+            }
+            else if (grades[threshold * 4 - 1] <= average)
+            {
+                return 'D';
+            }
+            else
+            {
+                return 'F';
+            }
+        }
     }
 }
