@@ -10,7 +10,7 @@ namespace GradeBook.GradeBooks
 			Type = Enums.GradeBookType.Ranked;
 		}
 
-        public override char GetLetterGrade(double average)
+        public override char GetLetterGrade(double averageGrade)
         {
             // If there are less than 5 students throw 
             //an InvalidOperationException. 
